@@ -20,7 +20,7 @@ A minimal, lightweight, modern C++ thread pool for easy multithreading in your p
 ```cpp
 #include "ThreadPool.h"
 ```
-
+Example
 ```cpp
 #include "ThreadPool.h"
 #include <iostream>
@@ -38,7 +38,9 @@ int main() {
 }
 ```
 ✨ Contributing
+
 Pull requests are welcome for improvements, bug fixes, or documentation enhancements.
 
 🙏 Acknowledgements
+
 Inspired by standard C++ thread pool patterns and StackOverflow discussions.

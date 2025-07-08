@@ -1,6 +1,12 @@
 // ThreadPool.h
 #pragma once
 
+#if __cplusplus >= 201703L
+    #define RESULT_OF std::invoke_result
+#else
+    #define RESULT_OF std::result_of
+#endif
+
 #include <vector>
 #include <queue>
 #include <thread>
@@ -9,6 +15,7 @@
 #include <future>
 #include <functional>
 #include <stdexcept>
+#include <type_traits>
 
 class ThreadPool {
 public:
@@ -18,7 +25,7 @@ public:
     // Submit a task with any arguments, returns a future
     template<class F, class... Args>
     auto enqueue(F&& f, Args&&... args)
-        -> std::future<typename std::invoke_result<F, Args...>::type>;
+        -> std::future<typename RESULT_OF<F(Args...)>::type>;
 
 private:
     // Workers
@@ -58,9 +65,9 @@ inline ThreadPool::ThreadPool(size_t threads) : stop(false) {
 // Add new work item to the pool
 template<class F, class... Args>
 auto ThreadPool::enqueue(F&& f, Args&&... args)
--> std::future<typename std::invoke_result<F, Args...>::type>
+-> std::future<typename std::result_of<F(Args...)>::type>
 {
-    using return_type = typename std::invoke_result<F, Args...>::type;
+    using return_type = typename std::result_of<F(Args...)>::type;
 
     auto task = std::make_shared<std::packaged_task<return_type()>>(
         std::bind(std::forward<F>(f), std::forward<Args>(args)...)

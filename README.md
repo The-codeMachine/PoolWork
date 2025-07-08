@@ -8,7 +8,7 @@ A minimal, lightweight, modern C++ thread pool for easy multithreading in your p
 - Easy to integrate
 - Submit any callable task with arguments
 - Returns `std::future` for result retrieval
-- Uses C++17 standard library only
+- Until further notice only works for C++17 and higher
 
 ---
 
